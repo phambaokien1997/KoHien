@@ -13,7 +13,7 @@ namespace BookStore.Core.Repositories
     {
         Task<T> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAllAsync(int pageIndex = 1, int pageSize = 10);
-        IQueryable<T> GetAllAsQuery(int pageIndex = 1, int pageSize = 10);
+        IQueryable<T> GetAllAsQuery(int pageIndex = 1, int pageSize = 20);
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
@@ -35,7 +35,7 @@ namespace BookStore.Core.Repositories
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(int pageIndex = 1, int pageSize = 10)
+        public async Task<IEnumerable<T>> GetAllAsync(int pageIndex = 1, int pageSize = 20)
         {
             return await _dbSet.Skip(pageSize * pageIndex).Take(pageSize).ToListAsync();
         }
