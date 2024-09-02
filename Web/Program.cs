@@ -10,6 +10,8 @@ services.AddDbContext<BookStoreDbContext>(options =>
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+var dbContext = app.Services.GetRequiredService<BookStoreDbContext>();
+dbContext.Database.Migrate();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
