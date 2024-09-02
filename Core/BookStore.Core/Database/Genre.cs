@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace BookStore.Core.Database
 {
 	[Table("Genre")]
-	public class Genre
+	public class Genre : BaseEntity
 	{
 		public Genre() 
 		{

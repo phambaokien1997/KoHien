@@ -3,15 +3,20 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
+var migrationAssembly = typeof(BookStoreDbContext).Assembly.GetName().Name;
 services.AddDbContext<BookStoreDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+		sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)));
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
-var dbContext = app.Services.GetRequiredService<BookStoreDbContext>();
-dbContext.Database.Migrate();
+using (var scope = app.Services.CreateScope())
+{
+	var dbContext = scope.ServiceProvider.GetRequiredService<BookStoreDbContext>();
+	dbContext.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

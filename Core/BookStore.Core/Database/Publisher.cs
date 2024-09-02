@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace BookStore.Core.Database
 {
 	[Table("Publisher")]
-	public class Publisher
+	public class Publisher : BaseEntity
 	{
 		public Publisher() 
 		{
