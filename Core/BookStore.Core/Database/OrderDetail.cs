@@ -10,20 +10,18 @@ namespace BookStore.Core.Database
 	[Table("OrderDetail")]
 	public class OrderDetail : BaseEntity
 	{
-		public int BookOrderId { get; set; }
-		[ForeignKey("BookOrderId")]
-		public BookOrder BookOrder { get; set; }
-		public int BookId { get; set; }
-		[ForeignKey("BookId")]
-		public Book Book { get; set; }
+        public DateTime OrderDate { get; set; }
+        public string CustomerName { get; set; }
+        public decimal TotalPrice { get; set; }
+        
+		public virtual ICollection<BookOrder> BookOrders { get; set; }
+		
 		public int Quantity { get; set; } // Số lượng sách trong đơn hàng
-		public decimal TotalPrice
+		public void CalculateTotalPrice()
 		{
-			get
-			{
-				return Quantity * Book.Price;
-			}
+			TotalPrice = BookOrders.Sum(detail => detail.TotalPrice);
 		}
+		
 
 	}
 }

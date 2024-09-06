@@ -11,16 +11,15 @@ namespace BookStore.Core.Database
 		public Book()
 		{
 			Authors = new HashSet<Author>();
-			OrderDetails = new HashSet<OrderDetail>();
+            BookOrders = new HashSet<BookOrder>();
 		}
 		[MaxLength(256)]
         public string Name { get; set; }
         public string Title { get; set; }
-
         public string ShortDescription { get; set; }
         public int AuthorId { get; set; }
-        public string Bardcode { get; set; }
 		public decimal Price { get; set; }
+        public int Quantity { get; set; }
 		public DateTime PublicationDate { get; set; }
 		public int GenreId { get; set; }
         [ForeignKey("GenreId")]
@@ -29,6 +28,6 @@ namespace BookStore.Core.Database
         [ForeignKey("PublisherId")]
         public Publisher Publisher { get; set; }
 		public virtual ICollection<Author> Authors { get; set; }
-		public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+		public virtual ICollection<BookOrder> BookOrders { get; set; }
 	}
 }

@@ -104,10 +104,6 @@ namespace BookStore.Core.Database.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Bardcode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -126,6 +122,9 @@ namespace BookStore.Core.Database.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("PublisherId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<string>("ShortDescription")
@@ -159,18 +158,17 @@ namespace BookStore.Core.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CustomerName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("OrderDetailID")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("UniqueId")
                         .HasColumnType("uniqueidentifier");
@@ -179,6 +177,10 @@ namespace BookStore.Core.Database.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("OrderDetailID");
 
                     b.ToTable("BookOrders");
                 });
@@ -221,17 +223,24 @@ namespace BookStore.Core.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookOrderId")
+                    b.Property<int?>("BookOrderId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("UniqueId")
                         .HasColumnType("uniqueidentifier");
@@ -240,8 +249,6 @@ namespace BookStore.Core.Database.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BookId");
 
                     b.HasIndex("BookOrderId");
 
@@ -339,28 +346,35 @@ namespace BookStore.Core.Database.Migrations
                     b.Navigation("Publisher");
                 });
 
-            modelBuilder.Entity("BookStore.Core.Database.OrderDetail", b =>
+            modelBuilder.Entity("BookStore.Core.Database.BookOrder", b =>
                 {
                     b.HasOne("BookStore.Core.Database.Book", "Book")
-                        .WithMany("OrderDetails")
+                        .WithMany("BookOrders")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookStore.Core.Database.BookOrder", "BookOrder")
-                        .WithMany("OrderDetails")
-                        .HasForeignKey("BookOrderId")
+                    b.HasOne("BookStore.Core.Database.OrderDetail", "OrderDetail")
+                        .WithMany("BookOrders")
+                        .HasForeignKey("OrderDetailID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Book");
 
-                    b.Navigation("BookOrder");
+                    b.Navigation("OrderDetail");
+                });
+
+            modelBuilder.Entity("BookStore.Core.Database.OrderDetail", b =>
+                {
+                    b.HasOne("BookStore.Core.Database.BookOrder", null)
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("BookOrderId");
                 });
 
             modelBuilder.Entity("BookStore.Core.Database.Book", b =>
                 {
-                    b.Navigation("OrderDetails");
+                    b.Navigation("BookOrders");
                 });
 
             modelBuilder.Entity("BookStore.Core.Database.BookOrder", b =>
@@ -371,6 +385,11 @@ namespace BookStore.Core.Database.Migrations
             modelBuilder.Entity("BookStore.Core.Database.Genre", b =>
                 {
                     b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("BookStore.Core.Database.OrderDetail", b =>
+                {
+                    b.Navigation("BookOrders");
                 });
 
             modelBuilder.Entity("BookStore.Core.Database.Publisher", b =>

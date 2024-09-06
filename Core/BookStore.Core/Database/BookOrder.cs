@@ -16,17 +16,23 @@ namespace BookStore.Core.Database
 			OrderDetails = new HashSet<OrderDetail>();
 		}
 
-		public DateTime OrderDate { get; set; }
-		public string CustomerName { get; set; }
-		public decimal TotalPrice { get; set; }  // Tổng giá trị của đơn hàng
-
-		public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-
-		// Phương thức để tính toán tổng giá trị của đơn hàng từ OrderDetails
-		public void CalculateTotalPrice()
-		{
-			TotalPrice = OrderDetails.Sum(detail => detail.TotalPrice);
-		}
-	}
+        public int OrderDetailID { get; set; }
+        [ForeignKey("OrderDetailID")]
+        public OrderDetail OrderDetail { get; set; }
+        public int BookId { get; set; }
+        [ForeignKey("BookId")]  // Tổng giá trị của đơn hàng
+        public Book Book { get; set; }
+        public int Quantity { get; set; } // Số lượng sách trong đơn hàng
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        
+        // Phương thức để tính toán tổng giá trị của đơn hàng từ OrderDetails
+        public decimal TotalPrice
+        {
+            get
+            {
+                return Quantity * Book.Price;
+            }
+        }
+    }
 }
 
