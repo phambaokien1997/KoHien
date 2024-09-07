@@ -7,7 +7,7 @@ var migrationAssembly = typeof(BookStoreDbContext).Assembly.GetName().Name;
 services.AddDbContext<BookStoreDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
 		sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)));
-
+builder.Services.AddScoped<DataSeeder>();
 // Add services to the container.
 builder.Services.AddRazorPages();
  // o day ne, cái ni add mấy hồi, demo để ông hiểu cái dependency injection thôi chớ
@@ -20,6 +20,9 @@ using (var scope = app.Services.CreateScope())
 {
 	var dbContext = scope.ServiceProvider.GetRequiredService<BookStoreDbContext>();
 	dbContext.Database.Migrate();
+    // Khởi tạo DataSeeder và gọi phương thức SeedDataAsync
+    var seeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
+    seeder.SeedDataAsync().Wait(); // Gọi SeedDataAsync và chờ cho đến khi hoàn tất
 }
 
 // Configure the HTTP request pipeline.

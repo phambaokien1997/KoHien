@@ -19,83 +19,91 @@ namespace BookStore.Core.Database
         {
             try
             {
-                await SeedBooksAsync();
-                await SeedAuthorsAsync();
                 await SeedGenresAsync();
                 await SeedPublishersAsync();
+                await SeedAuthorsAsync();
+                await SeedBooksAsync();
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                // Log the exception or print it to the console
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                // Ghi lại chi tiết lỗi
+                Console.WriteLine("An error occurred while saving the entity changes: " + ex.Message);
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner exception: " + ex.InnerException.Message);
+                }
+                throw; // Ném lại ngoại lệ để nó không bị che giấu
             }
         }
         public async Task SeedBooksAsync()
         {
             if (await _context.Books.AnyAsync())
                 return;
+            var authors = await _context.Authors.ToListAsync();
+            var genres = await _context.Genres.ToListAsync();
+            var publishers = await _context.Publishers.ToListAsync();
             var books = new List<Book>()
-            {
+                {
                 new Book()
                 {
                     Title = "The Great Gatsby",
-                Name = "The Great Gatsby",
-                ShortDescription = "A novel set in the Roaring Twenties",
-                Price = 10.99m,
-                Quantity = 100,
-                PublicationDate = new DateTime(1925, 4, 10),
-                GenreId = 1,  // Giả định rằng bạn đã có Genre với Id = 1
-                PublisherId = 1, // Giả định rằng bạn đã có Publisher với Id = 1
-                AuthorId = 1
+                    Name = "The Great Gatsby",
+                    ShortDescription = "A novel set in the Roaring Twenties",
+                    Price = 10.99m,
+                    Quantity = 100,
+                    PublicationDate = new DateTime(1925, 4, 10),
+                    GenreId = genres.FirstOrDefault(g => g.Name == "Classic")?.Id ?? 0, // Dynamically get GenreId
+                    PublisherId = publishers.FirstOrDefault(p => p.Name == "Scribner")?.Id ?? 0, // Dynamically get PublisherId
+                    AuthorId = authors.FirstOrDefault(a => a.Name == "F. Scott Fitzgerald")?.Id ?? 0 // Dynamically get AuthorId
                 },
                 new Book()
                 {
                     Title = "1984",
-                Name = "1984",
-                ShortDescription = "Dystopian novel by George Orwell",
-                Price = 9.99m,
-                Quantity = 150,
-                PublicationDate = new DateTime(1949, 6, 8),
-                GenreId = 2, // Giả định rằng bạn đã có Genre với Id = 2
-                PublisherId = 2, // Giả định rằng bạn đã có Publisher với Id = 2
-                AuthorId = 2
+                    Name = "1984",
+                    ShortDescription = "Dystopian novel by George Orwell",
+                    Price = 9.99m,
+                    Quantity = 150,
+                    PublicationDate = new DateTime(1949, 6, 8),
+                    GenreId = genres.FirstOrDefault(g => g.Name == "Dystopian")?.Id ?? 0, // Dynamically get GenreId
+                    PublisherId = publishers.FirstOrDefault(p => p.Name == "Secker & Warburg")?.Id ?? 0, // Dynamically get PublisherId
+                    AuthorId = authors.FirstOrDefault(a => a.Name == "George Orwell")?.Id ?? 0 // Dynamically get AuthorId
                 },
                 new Book()
                 {
                     Title = "To Kill a Mockingbird",
-                Name = "To Kill a Mockingbird",
-                ShortDescription = "A novel by Harper Lee exploring racial injustice",
-                Price = 8.99m,
-                Quantity = 200,
-                PublicationDate = new DateTime(1960, 7, 11),
-                GenreId = 3, // Giả định rằng bạn đã có Genre với Id = 3
-                PublisherId = 3, // Giả định rằng bạn đã có Publisher với Id = 3
-                AuthorId = 3,
+                    Name = "To Kill a Mockingbird",
+                    ShortDescription = "A novel by Harper Lee exploring racial injustice",
+                    Price = 8.99m,
+                    Quantity = 200,
+                    PublicationDate = new DateTime(1960, 7, 11),
+                    GenreId = genres.FirstOrDefault(g => g.Name == "Southern Gothic")?.Id ?? 0, // Dynamically get GenreId
+                    PublisherId = publishers.FirstOrDefault(p => p.Name == "J.B. Lippincott & Co.")?.Id ?? 0, // Dynamically get PublisherId
+                    AuthorId = authors.FirstOrDefault(a => a.Name == "Harper Lee")?.Id ?? 0 // Dynamically get AuthorId
                 },
                 new Book()
                 {
                     Title = "The Hobbit",
-                Name = "The Hobbit",
-                ShortDescription = "A fantasy novel by J.R.R. Tolkien",
-                Price = 11.99m,
-                Quantity = 250,
-                PublicationDate = new DateTime(1937, 9, 21),
-                GenreId = 5, // Giả định rằng bạn đã có Genre với Id = 5
-                PublisherId = 5, // Giả định rằng bạn đã có Publisher với Id = 5
-                AuthorId =5,
+                    Name = "The Hobbit",
+                    ShortDescription = "A fantasy novel by J.R.R. Tolkien",
+                    Price = 11.99m,
+                    Quantity = 250,
+                    PublicationDate = new DateTime(1937, 9, 21),
+                    GenreId = genres.FirstOrDefault(g => g.Name == "Adventure")?.Id ?? 0, // Dynamically get GenreId
+                    PublisherId = publishers.FirstOrDefault(p => p.Name == "Allen & Unwin")?.Id ?? 0, // Dynamically get PublisherId
+                    AuthorId = authors.FirstOrDefault(a => a.Name == "J.R.R. Tolkien")?.Id ?? 0 // Dynamically get AuthorId
                 },
                 new Book()
                 {
                     Title = "Harry Potter and the Sorcerer's Stone",
-                Name = "Harry Potter and the Sorcerer's Stone",
-                ShortDescription = "The first book in the Harry Potter series by J.K. Rowling",
-                Price = 12.99m,
-                Quantity = 300,
-                PublicationDate = new DateTime(1997, 6, 26),
-                GenreId = 4, // Giả định rằng bạn đã có Genre với Id = 4
-                PublisherId = 4, // Giả định rằng bạn đã có Publisher với Id = 4
-                AuthorId = 4,
+                    Name = "Harry Potter and the Sorcerer's Stone",
+                    ShortDescription = "The first book in the Harry Potter series by J.K. Rowling",
+                    Price = 12.99m,
+                    Quantity = 300,
+                    PublicationDate = new DateTime(1997, 6, 26),
+                    GenreId = genres.FirstOrDefault(g => g.Name == "Fantasy")?.Id ?? 0, // Dynamically get GenreId
+                    PublisherId = publishers.FirstOrDefault(p => p.Name == "Bloomsbury")?.Id ?? 0, // Dynamically get PublisherId
+                    AuthorId = authors.FirstOrDefault(a => a.Name == "J.K. Rowling")?.Id ?? 0 // Dynamically get AuthorId
                 }
             };
             await _context.Books.AddRangeAsync(books);
@@ -148,6 +156,7 @@ namespace BookStore.Core.Database
                 },
             };
             await _context.AddRangeAsync(authors);
+            await _context.SaveChangesAsync();
         }
         public async Task SeedGenresAsync()
         {
@@ -163,22 +172,28 @@ namespace BookStore.Core.Database
                 },
                 new Genre()
                 {
+
                     Name = "Dystopian",
                     Description = "Fiction depicting a controlled, often oppressive society."
                 },new Genre()
                 {
 
+                    Name = "Fantasy",
+                    Description = "Fiction with magical or supernatural elements that are not rooted in reality."
                 },new Genre()
                 {
+
                     Name = "Southern Gothic",
                     Description = "A genre that focuses on the Southern United States with elements of horror and decay."
                 },new Genre()
                 {
+
                     Name = "Adventure",
                     Description = "Stories involving exciting journeys or escapades, often with physical danger."
                 }
             };
             await _context.Genres.AddRangeAsync(genres);
+            await _context.SaveChangesAsync();
         }
         public async Task SeedPublishersAsync()
         {
@@ -228,6 +243,7 @@ namespace BookStore.Core.Database
                 }
             };
             await _context.Publishers.AddRangeAsync(publishers);
+            await _context.SaveChangesAsync();
         }
     }
 }
