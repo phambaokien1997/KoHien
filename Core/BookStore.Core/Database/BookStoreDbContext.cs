@@ -13,11 +13,19 @@ namespace BookStore.Core.Database
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
         public DbSet<BookOrder> BookOrders { get; set; }
-        public DbSet<OrderDetail> OrderDetails { get; set; }    
+        public DbSet<OrderDetail> OrderDetails { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Book>()
+                .Property(b => b.Price)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<OrderDetail>()
+                .Property(od => od.TotalPrice)
+                .HasColumnType("decimal(18,2)");
+
             // Fluent API configurations can be done here
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Book>()
