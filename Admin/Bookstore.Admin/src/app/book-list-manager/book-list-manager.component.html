@@ -1,1 +1,32 @@
-<p>book-list-manager works!</p>
+<p class="title">Admin Book Management System</p>
+<div class="header-container">
+  <button class="top-right" (click)="openModal()">Add a book</button>
+  <common-modal *ngIf="isModalOpen" (closeModal)="closeModal()" [isOpen]="isModalOpen">
+    <app-create-update-book-modal /> 
+  </common-modal>
+</div>
+<div class="panel">
+    <p>Find Book 2</p>
+    <div>
+        <label for="input-group"></label>
+        <input id="inputField" type="text" placeholder="Enter the book you want to find" value="{{text}}">
+    </div>
+    <div>
+      <label for="dropdown">Select an Option:</label>
+      <select id="dropdown" >
+        <option *ngFor="let option of options" [value]="option">
+          {{ option }}
+        </option>
+      </select>
+      <p>Selected Value: {{ selectedOption }}</p>
+    </div>
+    <button class="click-me">Click Me</button>
+</div>
+<div class="container">
+    <app-reusable-table 
+      [headers]="headers" 
+      [rows]="books"
+      (edit)="onEdit($event)"
+      (delete)="onDelete($event)">
+    </app-reusable-table >
+  </div>

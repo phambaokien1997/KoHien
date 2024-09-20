@@ -1,0 +1,47 @@
+<p>CREATE A BOOK HERE</p>
+<div class="book-container">
+    <div class="form-element">
+        <label for="text">Book Name:</label>
+        <input placeholder="Enter">
+    </div>
+    <div class="form-element">
+        <label for="text">Book Title:</label>
+        <input placeholder="Enter">
+    </div>
+    <div class="form-element">
+        <label for="text">Short Description:</label>
+        <input placeholder="Enter">
+    </div>
+    <div class="form-element">
+        <label for="text">Price:</label>
+        <input placeholder="Enter">
+    </div>
+    <div class="form-element">
+        <label for="text">Quantity:</label>
+        <input placeholder="Enter">
+    </div>
+    <div class="form-element">
+        <label for="dropdown">Select a Author:</label>
+        <select id="dropdown" >
+          <option *ngFor="let option of authorOptions" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+    </div>
+    <div class="form-element">
+        <label for="dropdown">Select a Genre:</label>
+        <select id="dropdown" >
+          <option *ngFor="let option of genreOptions" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+    </div>
+    <div class="form-element">
+        <label for="dropdown">Select a Publisher:</label>
+        <select id="dropdown" >
+          <option *ngFor="let option of publisherOptions" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+    </div>
+</div>

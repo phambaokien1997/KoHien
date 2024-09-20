@@ -1,1 +1,19 @@
-<p>author-list-manager works!</p>
+<p class="title">Admin Author Management System</p>
+<div class="header-container">
+ 
+<div class="panel">
+    <p>Find Book 2</p>
+    <div>
+        <label for="input-group"></label>
+        <input id="inputField" type="text" placeholder="Enter the book you want to find" value="">
+    </div>
+    <button class="click-me">Click Me</button>
+</div>
+<div class="container">
+    <app-reusable-table 
+      [headers]="headers" 
+      [rows]="authors"
+      (edit)="onEdit($event)"
+      (delete)="onDelete($event)">
+    </app-reusable-table >
+  </div>

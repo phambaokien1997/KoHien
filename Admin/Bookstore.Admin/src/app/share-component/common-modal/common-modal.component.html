@@ -1,0 +1,14 @@
+<div class="modal-container" *ngIf="isOpen">
+    <div class="modal-backdrop"></div> <!-- Nền mờ -->
+    <div class="modal">
+      <div class="modal-content">
+        <ng-content></ng-content>
+        <div>
+          <button (click)="onSave()">Save</button>
+          <button (click)="onClose()">Close</button>
+        </div>
+       
+        
+      </div>
+    </div>
+  </div>
