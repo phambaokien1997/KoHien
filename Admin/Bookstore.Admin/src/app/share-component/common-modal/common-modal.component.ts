@@ -6,17 +6,18 @@ import { CreateUpdateBookModalComponent } from '../../modals/create-update-book-
   standalone: true,
   imports: [CommonModule, CreateUpdateBookModalComponent],
   templateUrl: './common-modal.component.html',
-  styleUrl: './common-modal.component.css'
+  styleUrl: './common-modal.component.css',
 })
 export class CommonModalComponent {
-@Input() isOpen: boolean = false;
-@Output() closeModal = new EventEmitter<void>(); //Đóng modal
+  @Input() isOpen: boolean = false;
+  @Input() modalTitle: string = '';
+  @Output() closeModal = new EventEmitter<void>(); //Đóng modal
 
   onClose() {
-    this.closeModal.emit()
+    this.closeModal.emit();
   }
 
   onSave() {
-    alert("Saved!")
+    alert('Saved!');
   }
 }

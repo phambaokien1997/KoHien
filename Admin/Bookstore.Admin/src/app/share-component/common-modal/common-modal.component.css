@@ -1,50 +1,99 @@
 /* Nền mờ (backdrop) */
 .modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Hiệu ứng mờ */
-    z-index: 999; /* Đảm bảo backdrop nằm trên các thành phần khác */
-  }
-  
-  /* Modal */
-  .modal-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000; /* Modal trên backdrop */
-  }
-  
-  .modal {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    z-index: 1001; /* Modal nằm trên backdrop */
-    max-width: 600px; /* Giới hạn độ rộng modal */
-    width: 80%;
-  }
-  
-  .modal-content {
-    margin-top: 10px;
-  }
-  
-  button {
-    background-color: #f44336; /* Đỏ */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #d32f2f; /* Đậm hơn khi hover */
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Hiệu ứng mờ */
+  z-index: 999; /* Đảm bảo backdrop nằm trên các thành phần khác */
+}
+
+/* Modal */
+.modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000; /* Modal trên backdrop */
+}
+
+.modal {
+  display: grid;
+  place-items: center;
+  background-color: white;
+  padding: 0px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1001; /* Modal nằm trên backdrop */
+  max-width: 1000px; /* Giới hạn độ rộng modal */
+  width: 50%;
+  max-height: 1100px; /* Giới hạn chiều cao modal */
+  height: 100%; /* Để chiều cao tự động dựa trên nội dung */
+  overflow: hidden; /* Ẩn nội dung tràn ra ngoài */
+  margin-top: 10px;
+}
+
+.modal-content {
+  margin: 10px 0;
+  font-size: 20px;
+  width: 90%; /* Đặt width là 100% để sử dụng hết không gian của modal */
+  max-height: 100%; /* Giới hạn chiều cao tối đa của nội dung */
+  overflow-y: auto; /* Thêm thanh cuộn nếu nội dung quá lớn */
+  height: 100%;
+}
+
+button {
+  background-color: #f44336; /* Đỏ */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 5px;
+  border: 4px groove #37809c;
+}
+
+button:hover {
+  background-color: #d32f2f; /* Đậm hơn khi hover */
+}
+.button-modal {
+  margin-top: 0px;
+}
+#save {
+  background-color: yellow;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: black;
+  border: 4px groove #37809c;
+}
+#save:hover {
+  background-color: yellowgreen;
+}
+.modal-css {
+  height: 85%;
+}
+.modal-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px;
+  background-color: white;
+  width: 90%;
+  height: 2%;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #333;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  margin-left: 10px;
+  line-height: 1;
+}
