@@ -1,0 +1,54 @@
+.p-css {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  margin-top: 2%;
+}
+.centered-text {
+  color: rgb(224, 134, 23);
+  background-color: aqua;
+  border: solid seagreen 2px;
+  border-radius: 10px;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  height: 50px;
+  text-align: center;
+  padding-top: 4%;
+  width: 100%;
+  font-size: 30px;
+}
+.book-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  height: 80%;
+}
+.form-element {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-top: 3%;
+  margin-left: 0px;
+  width: 100%;
+}
+input {
+  margin-right: 10px;
+}
+.ele1 {
+  margin-top: 10px;
+}
+.full-book-modal {
+  height: 100%;
+}
+.form-element label {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+.form-element input {
+  width: 97%;
+  min-width: 0;
+  margin-left: 5px; /*KHÔNG BỊ CO LẠI BẰNG 0*/
+}
+.form-element select {
+  min-width: 0;
+}
