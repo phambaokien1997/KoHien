@@ -1,4 +1,5 @@
-﻿using BookStore.Core.Repositories;
+﻿using BookStore.Core.Database;
+using BookStore.Core.Repositories;
 
 namespace BookStore.Core.Services
 {
@@ -8,11 +9,11 @@ namespace BookStore.Core.Services
     }
     public class AuthorService : IAuthorService 
     {
-        private readonly IAuthorRepository _authorRepository;
+        private readonly IRepository<Author> _Repository;
 
-        public AuthorService(IAuthorRepository repository)
+        public AuthorService(IRepository<Author> repository)
         {
-            _authorRepository = repository;
+            _Repository = repository;
         }
     }
 }

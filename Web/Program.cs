@@ -1,4 +1,6 @@
 ﻿using BookStore.Core.Database;
+using BookStore.Core.Repositories;
+using BookStore.Core.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,8 +8,12 @@ var services = builder.Services;
 var migrationAssembly = typeof(BookStoreDbContext).Assembly.GetName().Name;
 services.AddDbContext<BookStoreDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-		sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)));
+		sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)).LogTo(Console.WriteLine, LogLevel.Information) // Log SQL to console
+           .EnableSensitiveDataLogging()) ;
 
+services.AddScoped<IBookService, BookService>();
+services.AddScoped<IAuthorRepository, AuthorRepository>();
+services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 // Add services to the container.
 builder.Services.AddRazorPages();
  // o day ne, cái ni add mấy hồi, demo để ông hiểu cái dependency injection thôi chớ
@@ -41,6 +47,9 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapRazorPages();
+app.MapRazorPages(); 
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

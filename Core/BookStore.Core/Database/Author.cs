@@ -9,7 +9,7 @@ namespace BookStore.Core.Database
     {
         public Author()
         {
-            Books = new HashSet<Book>();
+            Books = new HashSet<BookAuthor>();
             Genres = new HashSet<Genre>();
         }
         [MaxLength(256)]
@@ -19,7 +19,7 @@ namespace BookStore.Core.Database
         public string Country { get; set; }
         public string PhoneNumber { get; set; }
 
-        public virtual ICollection<Book> Books { get; set; }
+        public virtual ICollection<BookAuthor> Books { get; set; }
         public virtual ICollection<Genre> Genres { get; set; }
     }
 }

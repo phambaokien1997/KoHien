@@ -13,6 +13,7 @@ namespace BookStore.Core.Repositories
     {
         Task<List<Author>> GetAllAsync(DateTime bornBefore);
         Task AddAuthorAsync(Author author);
+        Task<bool> IsExistAsync(IEnumerable<int> authorIds);
     }
     public class AuthorRepository : BaseRepository<Author>, IAuthorRepository
     {
@@ -38,6 +39,12 @@ namespace BookStore.Core.Repositories
             var authors = await base.GetAllAsQuery().Where(x => x.DateOfBirth > bornBefore).ToListAsync();
 
             return authors;
+        }
+
+        public async Task<bool> IsExistAsync(IEnumerable<int> authorIds)
+        {
+            var existCount = await _context.Authors.CountAsync(x => authorIds.Contains(x.Id));
+            return existCount == authorIds.Count();
         }
 
         public bool IsValidEntity(Author entity, out List<ValidationResult> validationResults)

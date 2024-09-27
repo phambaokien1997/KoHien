@@ -14,6 +14,7 @@ namespace BookStore.Core.Database
         public DbSet<Publisher> Publishers { get; set; }
         public DbSet<BookOrder> BookOrders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<BookAuthor> BookAuthors { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -28,10 +29,13 @@ namespace BookStore.Core.Database
 
             // Fluent API configurations can be done here
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<BookAuthor>()
+                .HasKey(ba => new { ba.BookId, ba.AuthorId });
+
             modelBuilder.Entity<Book>()
                .HasMany(b => b.Authors)
-               .WithMany(a => a.Books)
-               .UsingEntity(j => j.ToTable("BookAuthors")); // Tạo bảng liên kết BookAuthors
+               .WithOne(a => a.Book); // Tạo bảng liên kết BookAuthors
 
             modelBuilder.Entity<Genre>()
                .HasMany(g => g.Authors)

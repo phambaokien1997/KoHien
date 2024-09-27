@@ -14,7 +14,9 @@ namespace BookStore.Core.Database
 		{
 			Books = new HashSet<Book>();
 			Authors = new HashSet<Author>();
-		}	
+            Name = string.Empty;
+            Description = string.Empty; 
+        }	
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public virtual ICollection<Book> Books { get; set; } 
