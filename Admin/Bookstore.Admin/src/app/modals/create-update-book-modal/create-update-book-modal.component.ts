@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CommonModalComponent } from '../../share-component/common-modal/common-modal.component';
 import { CommonModule } from '@angular/common';
 import { Author } from '../../models/author';
@@ -7,34 +7,67 @@ import { Genre } from '../../models/genre';
 import { GenreService } from '../../services/genre.service';
 import { Publisher } from '../../models/publisher';
 import { PublisherService } from '../../services/publisher.service';
+import { Book } from '../../models/book';
+import { MatSelectModule } from '@angular/material/select';
+import { MetaData } from '../../models/metadata';
+
 @Component({
   selector: 'app-create-update-book-modal',
   standalone: true,
-  imports: [CommonModalComponent, CommonModule],
+  imports: [CommonModalComponent, CommonModule, MatSelectModule],
   templateUrl: './create-update-book-modal.component.html',
-  styleUrl: './create-update-book-modal.component.css'
+  styleUrl: './create-update-book-modal.component.css',
 })
 export class CreateUpdateBookModalComponent implements OnInit {
-  authorOptions : string [] = [];
-  genreOptions : string [] =[];
-  publisherOptions : string [] = [];
-  constructor(private authorService : AuthorService, private genreService : GenreService, private publisherService : PublisherService){
-  }
+  @Input() book: Book | null = null;
+  @Input() isEditMode: boolean = false;
+  authorOptions: Author[] = [];
+  genreOptions: MetaData[] = [];
+  publisherOptions: MetaData[] = [];
+  selectedAuthorId: number[] | null = null;
+  constructor(
+    private authorService: AuthorService,
+    private genreService: GenreService,
+    private publisherService: PublisherService
+  ) {}
   ngOnInit(): void {
+    if (this.book) {
+      this.selectedAuthorId = this.book.authorIds;
+      console.log('Chỉnh sửa sách:', this.book);
+    } else {
+      console.log('Thêm sách mới');
+    }
     this.loadAuthors();
     this.loadGenres();
     this.loadPublisher();
   }
   loadAuthors() {
-    const authors: Author[] = this.authorService.getAuthor();
-    this.authorOptions = authors.map(author => author.name);
+    this.authorService.getAuthors().subscribe(
+      (authors) => {
+        console.log(authors);
+        this.authorOptions = authors;
+      },
+      (error) => {
+        console.error('Error fetching authors', error);
+      }
+    );
   }
-  loadGenres(){
-    const genres: Genre[] = this.genreService.getGenre();
-    this.genreOptions = genres.map(genre => genre.name);
+  loadGenres() {
+    // const genres: Genre[] = this.genreService.getGenre();
+    // this.genreOptions = genres.map((genre) => genre.name);
   }
-  loadPublisher(){
-    const publishers: Publisher[] = this.publisherService.getPublisher();
-    this.publisherOptions = publishers.map(publisher => publisher.name);
+  loadPublisher() {
+    this.publisherService.getPubliserName().subscribe(
+      (publishers) => {
+        this.publisherOptions = publishers;
+      },
+      (error) => {
+        console.error('Error fetching authors', error);
+      }
+    );
+  }
+  saveBook() {}
+  _isSelectedAuthors(otpion: Author) {
+    return true;
   }
 }

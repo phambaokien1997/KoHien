@@ -13,6 +13,7 @@ namespace BookStore.Core.Repositories
     {
         Task<List<Author>> GetAllAsync(DateTime bornBefore);
         Task AddAuthorAsync(Author author);
+        Task<bool> IsExistAsync(IEnumerable<int> authorIds);
     }
     public class AuthorRepository : BaseRepository<Author>, IAuthorRepository
     {
@@ -23,6 +24,7 @@ namespace BookStore.Core.Repositories
 
         public async Task AddAuthorAsync(Author author)
         {
+
             if (IsValidEntity(author, out List<ValidationResult> result))
             {
                 _dbSet.Add(author);
@@ -40,6 +42,12 @@ namespace BookStore.Core.Repositories
             return authors;
         }
 
+        public async Task<bool> IsExistAsync(IEnumerable<int> authorIds)
+        {
+            var existCountAuthor = await _context.Authors.CountAsync(x => authorIds.Contains(x.Id));
+            return existCountAuthor == authorIds.Count();
+        }
+
         public bool IsValidEntity(Author entity, out List<ValidationResult> validationResults)
         {
             validationResults = new List<ValidationResult>();
@@ -49,7 +57,6 @@ namespace BookStore.Core.Repositories
                 return false;
             }
             return true;
-
         }
     }
 }

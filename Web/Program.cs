@@ -1,4 +1,6 @@
 ﻿using BookStore.Core.Database;
+using BookStore.Core.Repositories;
+using BookStore.Core.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,9 +8,27 @@ var services = builder.Services;
 var migrationAssembly = typeof(BookStoreDbContext).Assembly.GetName().Name;
 services.AddDbContext<BookStoreDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-		sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)));
+		sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)).LogTo(Console.WriteLine, LogLevel.Information) // Log SQL to console
+           .EnableSensitiveDataLogging()) ;
 
 // Add services to the container.
+services.AddScoped<IBookService, BookService>();
+services.AddScoped<IAuthorService, AuthorService>();
+services.AddScoped<IGenreService, GenreService>();
+services.AddScoped<IPublisherService, PublisherService>();
+services.AddScoped<IAuthorRepository, AuthorRepository>();
+services.AddScoped<IBookRepository, BookRepository>();
+services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+
+services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder => builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
 builder.Services.AddRazorPages();
  // o day ne, cái ni add mấy hồi, demo để ông hiểu cái dependency injection thôi chớ
  // cũng đã xài đéo đâu
@@ -38,9 +58,13 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseCors("AllowAllOrigins"); // Áp dụng chính sách CORS
 
 app.UseAuthorization();
 
-app.MapRazorPages();
+app.MapRazorPages(); 
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

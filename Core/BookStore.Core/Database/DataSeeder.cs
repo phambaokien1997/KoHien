@@ -55,7 +55,6 @@ namespace BookStore.Core.Database
                     PublicationDate = new DateTime(1925, 4, 10),
                     GenreId = genres.FirstOrDefault(g => g.Name == "Classic")?.Id ?? 0, // Dynamically get GenreId
                     PublisherId = publishers.FirstOrDefault(p => p.Name == "Scribner")?.Id ?? 0, // Dynamically get PublisherId
-                    AuthorId = authors.FirstOrDefault(a => a.Name == "F. Scott Fitzgerald")?.Id ?? 0 // Dynamically get AuthorId
                 },
                 new Book()
                 {
@@ -67,7 +66,6 @@ namespace BookStore.Core.Database
                     PublicationDate = new DateTime(1949, 6, 8),
                     GenreId = genres.FirstOrDefault(g => g.Name == "Dystopian")?.Id ?? 0, // Dynamically get GenreId
                     PublisherId = publishers.FirstOrDefault(p => p.Name == "Secker & Warburg")?.Id ?? 0, // Dynamically get PublisherId
-                    AuthorId = authors.FirstOrDefault(a => a.Name == "George Orwell")?.Id ?? 0 // Dynamically get AuthorId
                 },
                 new Book()
                 {
@@ -79,7 +77,6 @@ namespace BookStore.Core.Database
                     PublicationDate = new DateTime(1960, 7, 11),
                     GenreId = genres.FirstOrDefault(g => g.Name == "Southern Gothic")?.Id ?? 0, // Dynamically get GenreId
                     PublisherId = publishers.FirstOrDefault(p => p.Name == "J.B. Lippincott & Co.")?.Id ?? 0, // Dynamically get PublisherId
-                    AuthorId = authors.FirstOrDefault(a => a.Name == "Harper Lee")?.Id ?? 0 // Dynamically get AuthorId
                 },
                 new Book()
                 {
@@ -91,7 +88,6 @@ namespace BookStore.Core.Database
                     PublicationDate = new DateTime(1937, 9, 21),
                     GenreId = genres.FirstOrDefault(g => g.Name == "Adventure")?.Id ?? 0, // Dynamically get GenreId
                     PublisherId = publishers.FirstOrDefault(p => p.Name == "Allen & Unwin")?.Id ?? 0, // Dynamically get PublisherId
-                    AuthorId = authors.FirstOrDefault(a => a.Name == "J.R.R. Tolkien")?.Id ?? 0 // Dynamically get AuthorId
                 },
                 new Book()
                 {
@@ -103,10 +99,11 @@ namespace BookStore.Core.Database
                     PublicationDate = new DateTime(1997, 6, 26),
                     GenreId = genres.FirstOrDefault(g => g.Name == "Fantasy")?.Id ?? 0, // Dynamically get GenreId
                     PublisherId = publishers.FirstOrDefault(p => p.Name == "Bloomsbury")?.Id ?? 0, // Dynamically get PublisherId
-                    AuthorId = authors.FirstOrDefault(a => a.Name == "J.K. Rowling")?.Id ?? 0 // Dynamically get AuthorId
                 }
             };
             await _context.Books.AddRangeAsync(books);
+
+            //await _context.BookAuthors.AddRangeAsync(books);
 
         }
         public async Task SeedAuthorsAsync()

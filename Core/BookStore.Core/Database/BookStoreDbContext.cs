@@ -14,7 +14,8 @@ namespace BookStore.Core.Database
         public DbSet<Publisher> Publishers { get; set; }
         public DbSet<BookOrder> BookOrders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
-
+        public DbSet<BookAuthor> BookAuthors { get; set; }
+        public DbSet<AuthorGenre> AuthorGenres { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,18 +26,36 @@ namespace BookStore.Core.Database
             modelBuilder.Entity<OrderDetail>()
                 .Property(od => od.TotalPrice)
                 .HasColumnType("decimal(18,2)");
+            modelBuilder.Entity<BookOrder>()
+                .Property(bo => bo.Discount)
+                .HasColumnType("decimal(18,2)");
 
             // Fluent API configurations can be done here
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<BookAuthor>()
+                .HasKey(ba => new { ba.BookId, ba.AuthorId });
+
             modelBuilder.Entity<Book>()
-               .HasMany(b => b.Authors)
-               .WithMany(a => a.Books)
-               .UsingEntity(j => j.ToTable("BookAuthors")); // Tạo bảng liên kết BookAuthors
+               .HasMany(b => b.BookAuthors)
+               .WithOne(a => a.Book); // Tạo bảng liên kết BookAuthors
+
+            modelBuilder.Entity<Author>()
+               .HasMany(a => a.BookAuthors)
+               .WithOne(ba => ba.Author);
+            // Cấu hình cho AuthorGenre
+            modelBuilder.Entity<AuthorGenre>()
+                .ToTable("AuthorGenres")
+                .HasKey(ag => new { ag.AuthorId, ag.GenreId });
+
+            modelBuilder.Entity<Author>()
+                .HasMany(a => a.AuthorGenres)
+                .WithOne(ag => ag.Author);
 
             modelBuilder.Entity<Genre>()
-               .HasMany(g => g.Authors)
-               .WithMany(a => a.Genres)
-               .UsingEntity(j => j.ToTable("GenreAuthors"));
+                .HasMany(g => g.AuthorGenres)
+                .WithOne(ag => ag.Genre);
+
 
             // Cấu hình mối quan hệ một-nhiều giữa Genre và Book
             modelBuilder.Entity<Genre>()
