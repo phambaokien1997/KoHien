@@ -39,7 +39,6 @@ namespace BookStore.Core.Repositories
                 throw new KeyNotFoundException($"Entity with id {id} not found.");
             }
             return entity;
-
         }
 
         public async Task<IEnumerable<T>> GetAllAsync(int pageIndex = 1, int pageSize = 20)
@@ -57,15 +56,15 @@ namespace BookStore.Core.Repositories
         public async Task AddAsync(T entity)
         {
             try
-    {
-        await _dbSet.AddAsync(entity);
-        await SaveChangesAsync();
-    }
-    catch (Exception ex)
-    {
-        // Xử lý lỗi (log, throw ra ngoài, v.v.)
-        throw new InvalidOperationException("Error adding entity", ex);
-    }
+            {
+                await _dbSet.AddAsync(entity);
+                await SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi (log, throw ra ngoài, v.v.)
+                throw new InvalidOperationException("Error adding entity", ex);
+            }
         }
 
         public async Task UpdateAsync(T entity)

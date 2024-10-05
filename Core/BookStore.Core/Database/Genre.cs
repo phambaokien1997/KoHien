@@ -13,14 +13,14 @@ namespace BookStore.Core.Database
 		public Genre() 
 		{
 			Books = new HashSet<Book>();
-			Authors = new HashSet<Author>();
+            AuthorGenres = new HashSet<AuthorGenre>();
             Name = string.Empty;
             Description = string.Empty; 
         }	
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public virtual ICollection<Book> Books { get; set; } 
-		public virtual ICollection<Author> Authors { get; set;}
+		public virtual ICollection<AuthorGenre> AuthorGenres { get; set;}
 
 	}
 }

@@ -24,6 +24,7 @@ namespace BookStore.Core.Repositories
 
         public async Task AddAuthorAsync(Author author)
         {
+
             if (IsValidEntity(author, out List<ValidationResult> result))
             {
                 _dbSet.Add(author);
@@ -43,8 +44,8 @@ namespace BookStore.Core.Repositories
 
         public async Task<bool> IsExistAsync(IEnumerable<int> authorIds)
         {
-            var existCount = await _context.Authors.CountAsync(x => authorIds.Contains(x.Id));
-            return existCount == authorIds.Count();
+            var existCountAuthor = await _context.Authors.CountAsync(x => authorIds.Contains(x.Id));
+            return existCountAuthor == authorIds.Count();
         }
 
         public bool IsValidEntity(Author entity, out List<ValidationResult> validationResults)
@@ -56,7 +57,6 @@ namespace BookStore.Core.Repositories
                 return false;
             }
             return true;
-
         }
     }
 }

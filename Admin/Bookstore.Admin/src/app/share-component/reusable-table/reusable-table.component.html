@@ -1,23 +1,25 @@
 <table class="table">
-    <thead>
-        <tr>
-            <th *ngFor="let header of  headers">
-                {{header}}
-            </th>
-            <th>
-                Actions
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let row of rows">
-            <td *ngFor="let header of headers">
-                {{row[header]}}
-            </td>
-            <td class="action-buttons">
-                <button class="btn btn-primary btn-sm" (click)="onEdit(row.id)">Edit</button>
-                <button class="btn btn-danger btn-sm" (click)="onDelete(row.id)">Delete</button>
-            </td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th *ngFor="let header of headers">
+        {{ header }}
+      </th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of rows">
+      <td *ngFor="let header of headers">
+        {{ row[formatHeader(header)] }}
+      </td>
+      <td class="action-buttons">
+        <button class="btn btn-primary btn-sm" (click)="onEdit(row.id)">
+          Edit
+        </button>
+        <button class="btn btn-danger btn-sm" (click)="onDelete(row.id)">
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
 </table>

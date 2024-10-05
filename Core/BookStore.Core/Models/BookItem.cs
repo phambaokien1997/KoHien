@@ -15,7 +15,8 @@ namespace BookStore.Core.Models
         public string? Genre { get; set; }
         public int PublisherId { get; set; }
         public string? Publisher { get; set; }
-        public string[] Authors { get; set; }
+        public string[]? Authors { get; set; }
         public int[] AuthorIds { get; set; }
+        public string CreatedAt { get; set; }
     }
 }

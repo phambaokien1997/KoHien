@@ -38,15 +38,16 @@ namespace BookStore.Core.Services
                 Genre = book.Genre?.Name,
                 PublisherId = book.PublisherId,
                 Publisher = book.Publisher?.Name,
-                Authors = book.Authors.Select(author => author.Author?.Name).ToArray(),
-                AuthorIds = book.Authors.Select(ba => ba.AuthorId).ToArray()
+                Authors = book.BookAuthors.Select(author => author.Author.Name).ToArray(),
+                AuthorIds = book.BookAuthors.Select(ba => ba.AuthorId).ToArray(),
+                CreatedAt = book.CreatedAt.ToString("yyyyy-MM-dd")
             };
         }
 
         public async Task<BookItem?> GetByIdAsync(int id)
         {
             var book = await _repository.GetAllAsQuery()
-                .Include(b => b.Authors)
+                .Include(b => b.BookAuthors)
                 .ThenInclude(ba => ba.Author)
                 .Include(b => b.Genre)
                 .Include(b => b.Publisher)
@@ -88,7 +89,8 @@ namespace BookStore.Core.Services
 
             //return resultLazy;
             var books = await _repository.GetAllAsQuery()
-                .Include(b => b.Authors)  // Eager load authors
+                .Include(b => b.BookAuthors)
+                .ThenInclude(ba => ba.Author)// Eager load authors
                 .Include(b => b.Genre)    // Eager load genre
                 .Include(b => b.Publisher) // Eager load publisher
                 .ToListAsync();
@@ -120,7 +122,7 @@ namespace BookStore.Core.Services
                 PublicationDate = DateTime.UtcNow,
                 CreatedAt = DateTime.UtcNow,
                 PublisherId = input.PublisherId,
-                Authors = authors
+                BookAuthors = authors
             };
             if (!_repository.IsValidEntity(newBook, out List<ValidationResult> errors))
             {
@@ -144,30 +146,30 @@ namespace BookStore.Core.Services
             return bookItem;
         }
 
-            public async Task<BookItem?> UpdateBookAsync(Book updatedBook)
+        public async Task<BookItem?> UpdateBookAsync(Book updatedBook)
+        {
+            if (!_repository.IsValidEntity(updatedBook, out List<ValidationResult> errors))
             {
-                if (!_repository.IsValidEntity(updatedBook, out List<ValidationResult> errors))
-                {
-                    var errorMessage = string.Join(", ", errors.Select(e => e.ErrorMessage));
-                    throw new InvalidOperationException("Data is invalid with these errors" + errorMessage);
-                }
-                var existingBook = await _repository.GetByIdAsync(updatedBook.Id);
-                if (existingBook == null)
-                {
-                    return null;
-                }
-                existingBook.Title = updatedBook.Title;
-                existingBook.Name = updatedBook.Name;
-                existingBook.ShortDescription = updatedBook.ShortDescription;
-                existingBook.Price = updatedBook.Price;
-                existingBook.Quantity = updatedBook.Quantity;
-                existingBook.PublicationDate = updatedBook.PublicationDate;
-                existingBook.GenreId = updatedBook.GenreId;
-                existingBook.PublisherId = updatedBook.PublisherId;
-                existingBook.Authors = updatedBook.Authors;
-                await _repository.UpdateAsync(existingBook);
-                var existingBookItem = ConvertToBookItem(existingBook);
-                return existingBookItem;
+                var errorMessage = string.Join(", ", errors.Select(e => e.ErrorMessage));
+                throw new InvalidOperationException("Data is invalid with these errors" + errorMessage);
             }
+            var existingBook = await _repository.GetByIdAsync(updatedBook.Id);
+            if (existingBook == null)
+            {
+                return null;
+            }
+            existingBook.Title = updatedBook.Title;
+            existingBook.Name = updatedBook.Name;
+            existingBook.ShortDescription = updatedBook.ShortDescription;
+            existingBook.Price = updatedBook.Price;
+            existingBook.Quantity = updatedBook.Quantity;
+            existingBook.PublicationDate = updatedBook.PublicationDate;
+            existingBook.GenreId = updatedBook.GenreId;
+            existingBook.PublisherId = updatedBook.PublisherId;
+            existingBook.BookAuthors = updatedBook.BookAuthors;
+            await _repository.UpdateAsync(existingBook);
+            var updatedBookItem = ConvertToBookItem(existingBook);
+            return updatedBookItem;
+        }
     }
 }

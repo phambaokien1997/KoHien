@@ -69,24 +69,24 @@ namespace BookStore.Core.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GenreAuthors",
+                name: "AuthorGenres",
                 columns: table => new
                 {
-                    AuthorsId = table.Column<int>(type: "int", nullable: false),
-                    GenresId = table.Column<int>(type: "int", nullable: false)
+                    AuthorId = table.Column<int>(type: "int", nullable: false),
+                    GenreId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GenreAuthors", x => new { x.AuthorsId, x.GenresId });
+                    table.PrimaryKey("PK_AuthorGenres", x => new { x.AuthorId, x.GenreId });
                     table.ForeignKey(
-                        name: "FK_GenreAuthors_Authors_AuthorsId",
-                        column: x => x.AuthorsId,
+                        name: "FK_AuthorGenres_Authors_AuthorId",
+                        column: x => x.AuthorId,
                         principalTable: "Authors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GenreAuthors_Genre_GenresId",
-                        column: x => x.GenresId,
+                        name: "FK_AuthorGenres_Genre_GenreId",
+                        column: x => x.GenreId,
                         principalTable: "Genre",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -202,6 +202,11 @@ namespace BookStore.Core.Database.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AuthorGenres_GenreId",
+                table: "AuthorGenres",
+                column: "GenreId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BookAuthors_AuthorId",
                 table: "BookAuthors",
                 column: "AuthorId");
@@ -227,11 +232,6 @@ namespace BookStore.Core.Database.Migrations
                 column: "PublisherId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GenreAuthors_GenresId",
-                table: "GenreAuthors",
-                column: "GenresId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_OrderDetail_BookOrderId",
                 table: "OrderDetail",
                 column: "BookOrderId");
@@ -249,6 +249,10 @@ namespace BookStore.Core.Database.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
+                name: "FK_Books_Genre_GenreId",
+                table: "Books");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_BookOrders_Books_BookId",
                 table: "BookOrders");
 
@@ -257,19 +261,19 @@ namespace BookStore.Core.Database.Migrations
                 table: "BookOrders");
 
             migrationBuilder.DropTable(
-                name: "BookAuthors");
+                name: "AuthorGenres");
 
             migrationBuilder.DropTable(
-                name: "GenreAuthors");
+                name: "BookAuthors");
 
             migrationBuilder.DropTable(
                 name: "Authors");
 
             migrationBuilder.DropTable(
-                name: "Books");
+                name: "Genre");
 
             migrationBuilder.DropTable(
-                name: "Genre");
+                name: "Books");
 
             migrationBuilder.DropTable(
                 name: "Publisher");

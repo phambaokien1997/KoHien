@@ -2,33 +2,51 @@
   <div class="book-container">
     <div class="form-element ele1">
       <label for="text" style="color: brown">Book Name:</label>
-      <input placeholder="Enter the book name to add" />
+      <input
+        id="name"
+        placeholder="Enter the book name to add"
+        [value]="book?.name"
+      />
     </div>
     <div class="form-element">
       <label for="text" style="color: rgb(48, 14, 201)">Book Title:</label>
-      <input placeholder="Enter the book title to add" />
+      <input placeholder="Enter the book title to add" [value]="book?.title" />
     </div>
     <div class="form-element">
       <label for="text" style="color: rgb(58, 58, 4)">Short Description:</label>
-      <input placeholder="Enter a description for the book" />
+      <input
+        placeholder="Enter a description for the book"
+        [value]="book?.shortDescription"
+      />
     </div>
     <div class="form-element">
       <label for="text" style="color: rgb(16, 85, 16)">Price:</label>
-      <input placeholder="Enter the book price" />
+      <input placeholder="Enter the book price" [value]="book?.price" />
     </div>
     <div class="form-element">
       <label for="text" style="color: rgb(3, 95, 64)">Quantity:</label>
-      <input placeholder="Enter the book quantity" />
+      <input placeholder="Enter the book quantity" [value]="book?.quantity" />
     </div>
     <div class="form-element">
       <label for="dropdown" style="color: rgb(78, 49, 5)"
         >Select a Author:</label
       >
-      <select id="dropdown">
-        <option *ngFor="let option of authorOptions" [value]="option">
-          {{ option }}
+      <!-- <select id="dropdown">
+        <option *ngFor="let author of authorOptions" [value]="author.id">
+          {{ author.name }}
         </option>
-      </select>
+      </select> -->
+      <mat-select
+        [value]="book?.authorIds"
+        multiple
+        placeholder="Select authors..."
+      >
+        @for (author of authorOptions; track author) {
+        <mat-option [value]="author.id">
+          {{ author.name }}
+        </mat-option>
+        }
+      </mat-select>
     </div>
     <div class="form-element">
       <label for="dropdown" style="color: blueviolet">Select a Genre:</label>
@@ -39,14 +57,18 @@
       </select>
     </div>
     <div class="form-element">
-      <label for="dropdown" style="color: rgb(156, 71, 85)"
-        >Select a Publisher:</label
+      <label for="dropdown" style="color: rgb(156, 71, 85)">Publisher:</label>
+      <mat-select
+        [value]="book?.authorIds"
+        multiple
+        placeholder="Select Publisher..."
       >
-      <select id="dropdown">
-        <option *ngFor="let option of publisherOptions" [value]="option">
-          {{ option }}
-        </option>
-      </select>
+        @for (publisher of publisherOptions; track publisher) {
+        <mat-option [value]="publisher.id">
+          {{ publisher.value }}
+        </mat-option>
+        }
+      </mat-select>
     </div>
   </div>
 </div>

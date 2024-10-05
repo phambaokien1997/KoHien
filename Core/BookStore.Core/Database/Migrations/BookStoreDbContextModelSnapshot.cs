@@ -22,21 +22,6 @@ namespace BookStore.Core.Database.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AuthorGenre", b =>
-                {
-                    b.Property<int>("AuthorsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GenresId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuthorsId", "GenresId");
-
-                    b.HasIndex("GenresId");
-
-                    b.ToTable("GenreAuthors", (string)null);
-                });
-
             modelBuilder.Entity("BookStore.Core.Database.Author", b =>
                 {
                     b.Property<int>("Id")
@@ -76,6 +61,21 @@ namespace BookStore.Core.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Authors");
+                });
+
+            modelBuilder.Entity("BookStore.Core.Database.AuthorGenre", b =>
+                {
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AuthorId", "GenreId");
+
+                    b.HasIndex("GenreId");
+
+                    b.ToTable("AuthorGenres", (string)null);
                 });
 
             modelBuilder.Entity("BookStore.Core.Database.Book", b =>
@@ -297,19 +297,23 @@ namespace BookStore.Core.Database.Migrations
                     b.ToTable("Publisher");
                 });
 
-            modelBuilder.Entity("AuthorGenre", b =>
+            modelBuilder.Entity("BookStore.Core.Database.AuthorGenre", b =>
                 {
-                    b.HasOne("BookStore.Core.Database.Author", null)
-                        .WithMany()
-                        .HasForeignKey("AuthorsId")
+                    b.HasOne("BookStore.Core.Database.Author", "Author")
+                        .WithMany("AuthorGenres")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookStore.Core.Database.Genre", null)
-                        .WithMany()
-                        .HasForeignKey("GenresId")
+                    b.HasOne("BookStore.Core.Database.Genre", "Genre")
+                        .WithMany("AuthorGenres")
+                        .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Genre");
                 });
 
             modelBuilder.Entity("BookStore.Core.Database.Book", b =>
@@ -334,13 +338,13 @@ namespace BookStore.Core.Database.Migrations
             modelBuilder.Entity("BookStore.Core.Database.BookAuthor", b =>
                 {
                     b.HasOne("BookStore.Core.Database.Author", "Author")
-                        .WithMany("Books")
+                        .WithMany("BookAuthors")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BookStore.Core.Database.Book", "Book")
-                        .WithMany("Authors")
+                        .WithMany("BookAuthors")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -378,12 +382,14 @@ namespace BookStore.Core.Database.Migrations
 
             modelBuilder.Entity("BookStore.Core.Database.Author", b =>
                 {
-                    b.Navigation("Books");
+                    b.Navigation("AuthorGenres");
+
+                    b.Navigation("BookAuthors");
                 });
 
             modelBuilder.Entity("BookStore.Core.Database.Book", b =>
                 {
-                    b.Navigation("Authors");
+                    b.Navigation("BookAuthors");
 
                     b.Navigation("BookOrders");
                 });
@@ -395,6 +401,8 @@ namespace BookStore.Core.Database.Migrations
 
             modelBuilder.Entity("BookStore.Core.Database.Genre", b =>
                 {
+                    b.Navigation("AuthorGenres");
+
                     b.Navigation("Books");
                 });
 

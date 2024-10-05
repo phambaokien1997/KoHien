@@ -8,7 +8,7 @@ namespace BookStore.Core.Database
     {
 		public Book()
 		{
-			Authors = new HashSet<BookAuthor>();
+			BookAuthors = new HashSet<BookAuthor>();
             BookOrders = new HashSet<BookOrder>();
             Name = string.Empty; 
             Title = string.Empty; 
@@ -36,7 +36,7 @@ namespace BookStore.Core.Database
 		public int PublisherId { get; set; }
         [ForeignKey("PublisherId")]
         public virtual Publisher? Publisher { get; set; }
-		public virtual ICollection<BookAuthor> Authors { get; set; }
+		public virtual ICollection<BookAuthor> BookAuthors { get; set; }
 		public virtual ICollection<BookOrder>? BookOrders { get; set; }
 	}
 }

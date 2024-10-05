@@ -8,10 +8,10 @@ namespace BookStore.Web.Controllers.Apis
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BooksApiController : ControllerBase
+    public class BookController : ControllerBase
     {
         private readonly IBookService _bookService;
-        public BooksApiController(IBookService bookService)
+        public BookController(IBookService bookService)
         {
             _bookService = bookService;
         }
@@ -99,18 +99,18 @@ namespace BookStore.Web.Controllers.Apis
                 GenreId = updatedBookDto.GenreId,
                 PublisherId = updatedBookDto.PublisherId,
                 // Chuyển đổi AuthorIds sang danh sách BookAuthor
-                Authors = updatedBookDto.AuthorIds.Select(authorId => new BookAuthor
+                BookAuthors = updatedBookDto.AuthorIds.Select(authorId => new BookAuthor
                 {
                     AuthorId = authorId
                 }).ToList()
             };
-            var bookItem = await _bookService.UpdateBookAsync(updatedBook);
-            if (bookItem == null)
+            var updatedBookItem = await _bookService.UpdateBookAsync(updatedBook);
+            if (updatedBookItem == null)
             {
                 return NotFound(new { message = "Book not found." });
             }
 
-            return Ok(bookItem);
+            return Ok(updatedBookItem);
         }
     }
 }
