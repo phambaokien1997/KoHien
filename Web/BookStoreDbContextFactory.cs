@@ -9,7 +9,7 @@ namespace BookStore.Web
     public BookStoreDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<BookStoreDbContext>();
-        optionsBuilder.UseSqlServer("YourConnectionStringHere");
+        optionsBuilder.UseSqlServer("Server=DESKTOP-4QUI8GB;Database=BookStoreDb;Integrated Security=True;TrustServerCertificate=True");
 
         return new BookStoreDbContext(optionsBuilder.Options);
     }

@@ -20,6 +20,9 @@ using (var scope = app.Services.CreateScope())
 {
 	var dbContext = scope.ServiceProvider.GetRequiredService<BookStoreDbContext>();
 	dbContext.Database.Migrate();
+    // Khởi tạo DataSeeder và gọi phương thức SeedDataAsync
+    var dataSeeder = new DataSeeder(dbContext);
+    await dataSeeder.SeedDataAsync();
 }
 
 // Configure the HTTP request pipeline.

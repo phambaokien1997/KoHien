@@ -18,7 +18,7 @@ namespace BookStore.Core.Database
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public virtual ICollection<Book> Books { get; set; } 
-		public virtual ICollection<Author> Authors { get;}
+		public virtual ICollection<Author> Authors { get; set;}
 
 	}
 }

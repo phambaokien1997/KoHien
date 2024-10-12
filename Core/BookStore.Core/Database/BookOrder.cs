@@ -15,16 +15,15 @@ namespace BookStore.Core.Database
 		{
 			OrderDetails = new HashSet<OrderDetail>();
 		}
-
+        public decimal? Discount { get; set; }
         public int OrderDetailID { get; set; }
-        [ForeignKey("OrderDetailID")]
-        public OrderDetail OrderDetail { get; set; }
         public int BookId { get; set; }
-        [ForeignKey("BookId")]  // Tổng giá trị của đơn hàng
-        public Book Book { get; set; }
         public int Quantity { get; set; } // Số lượng sách trong đơn hàng
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-        
+        [ForeignKey("OrderDetailID")]
+        public OrderDetail OrderDetail { get; set; }
+        [ForeignKey("BookId")]  // Tổng giá trị của đơn hàng
+        public Book Book { get; set; }
         // Phương thức để tính toán tổng giá trị của đơn hàng từ OrderDetails
         public decimal TotalPrice
         {
@@ -33,6 +32,7 @@ namespace BookStore.Core.Database
                 return Quantity * Book.Price;
             }
         }
+        
     }
 }
 

@@ -1,0 +1,76 @@
+/* Đảm bảo rằng main chiếm toàn bộ chiều cao của màn hình */
+main.main {
+  display: flex;
+  height: 100vh; /* Chiếm toàn bộ chiều cao của viewport */
+  font-family: 'Roboto', sans-serif; /* Sử dụng font Roboto đã định nghĩa trong index.html */
+}
+
+/* Định dạng cho container để hiển thị các phần tử bên trong */
+.container {
+  display: flex;
+  flex: 1; /* Để container chiếm toàn bộ không gian còn lại trong main */
+}
+
+/* Định dạng cho thanh bên */
+.sidebar {
+  width: 250px; /* Chiều rộng cố định cho sidebar */
+  background-color: #f4f4f4; /* Màu nền cho sidebar */
+  padding: 15px; /* Khoảng cách bên trong sidebar */
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Đổ bóng nhẹ cho sidebar */
+}
+
+.sidebar ul {
+  list-style-type: none; /* Loại bỏ dấu chấm trước các mục */
+  padding: 0; /* Loại bỏ khoảng cách bên trong của danh sách */
+  margin: 0; /* Loại bỏ khoảng cách ngoài của danh sách */
+}
+
+.sidebar li {
+  margin-bottom: 10px; /* Khoảng cách giữa các mục trong danh sách */
+}
+
+/* Định dạng cho các liên kết trong thanh bên */
+.sidebar a {
+  text-decoration: none; /* Loại bỏ gạch chân */
+  color: #333; /* Màu văn bản */
+  display: block; /* Làm cho liên kết chiếm toàn bộ chiều rộng */
+  padding: 10px; /* Khoảng cách bên trong liên kết */
+  border-radius: 4px; /* Bo tròn các góc liên kết */
+  z-index: 10; /* Đảm bảo liên kết nằm trên các phần tử khác */
+  pointer-events: auto; /* Đảm bảo các liên kết có thể nhận sự kiện chuột */
+}
+
+.sidebar a.active {
+  background-color: #007bff !important; /* Màu nền cho liên kết đang hoạt động */
+  color: #fff; /* Màu văn bản cho liên kết đang hoạt động */
+}
+
+/* Định dạng cho phần nội dung chính */
+.content {
+  flex: 1; /* Chiếm toàn bộ không gian còn lại trong container */
+  padding: 20px; /* Khoảng cách bên trong nội dung */
+  background-color: #fff; /* Màu nền cho nội dung */
+}
+.button {
+  box-shadow: inset 0 1px 0 0 #ffffff;
+  background: #ffffff linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+  border-radius: 6px;
+  border: 1px solid #dcdcdc;
+  display: inline-block;
+  cursor: pointer;
+  color: #666666;
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 6px 24px;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #ffffff;
+  outline: 0;
+}
+.activebutton {
+  box-shadow: inset 0 1px 0 0 #dcecfb;
+  background: #bddbfa linear-gradient(to bottom, #bddbfa 5%, #80b5ea 100%);
+  border: 1px solid #84bbf3;
+  color: #ffffff;
+  text-shadow: 0 1px 0 #528ecc;
+}
