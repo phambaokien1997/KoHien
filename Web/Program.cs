@@ -46,7 +46,6 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-// đĩ mẹ chỉ vì 1 cai lam ko dc mà đạp đổ 9 cái làm đc rồi. đéo có cái ngu mô bằng cái ngu ni, ngu vccc oong chua xoa cai web kia dm cai no la quan trong nhat a roi may cai dang ky repository hoi chieu dau ???
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");

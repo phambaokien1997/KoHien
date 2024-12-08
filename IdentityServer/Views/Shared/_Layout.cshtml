@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MyApp</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        #sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            transition: all 0.3s;
+        }
+
+            #sidebar.collapsed {
+                min-width: 70px;
+                max-width: 70px;
+            }
+
+            #sidebar .nav-link {
+                white-space: nowrap;
+            }
+
+            #sidebar.collapsed .nav-link span {
+                display: none;
+            }
+
+            #sidebar.collapsed .nav-link i {
+                margin-right: 0;
+            }
+
+        #content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .text-hidden {
+            visibility: hidden;
+        }
+
+        .d-flex {
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* Quan trọng: Đảm bảo cha chiếm đủ chiều cao */
+        }
+
+        #toggleSidebar {
+            margin-top: auto; /* Đẩy nút xuống dưới cùng */
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <nav id="sidebar" class="bg-dark text-light">
+        <div class="d-flex flex-column p-3" style="height: 100vh;">
+            <h2 class="text-center">MyApp</h2>
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#"><i class="bi bi-house"></i> <span>Home</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#"><i class="bi bi-gear"></i> <span>Settings</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#"><i class="bi bi-info-circle"></i> <span>About</span></a>
+                </li>
+            </ul>
+            <button class="btn btn-secondary mt-auto">
+                <a asp-controller="Account" asp-action="Logout" class="btn btn-danger">Log Out</a>
+            </button>
+            <button id="toggleSidebar" class="btn btn-secondary mt-auto">
+                <
+            </button>
+          
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div id="content">
+        @RenderBody()
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const toggleSidebar = document.getElementById('toggleSidebar');
+        const textCenter = document.querySelector('.text-center')
+        let isExpand = true;
+
+        toggleSidebar.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            debugger;
+            textCenter.classList.toggle('text-hidden');
+            isExpand = !isExpand;
+            if (isExpand)
+                toggleSidebar.innerHTML = "<";
+            else
+                toggleSidebar.innerHTML = ">"
+        });
+    </script>
+</body>
+</html>
