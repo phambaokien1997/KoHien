@@ -3,20 +3,25 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Web.Controllers
 {
-    [Authorize]
-    public class BookController : Controller
+    public class HomeController : Controller
     {
-        public BookController()
+        public HomeController()
         {
-            
+
         }
 
 
         [HttpGet]
-        public IActionResult Index() 
+        public IActionResult Index()
         {
             return View();
-        }
-        
-    }
+		}
+
+		[HttpGet]
+		public IActionResult Contact()
+		{
+			return View();
+		}
+
+	}
 }

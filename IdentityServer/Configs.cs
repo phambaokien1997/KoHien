@@ -32,6 +32,30 @@ public static class Config
                 PostLogoutRedirectUris = { "https://localhost:5001/signout-callback-oidc" },
                 AllowedScopes = { "openid", "profile", "api1" },
                 RequirePkce = true
+            },
+            new Client
+            {
+                ClientId = "mvc_client",
+                ClientName = "MVC Client",
+                RequireClientSecret = false,
+                AllowedGrantTypes = GrantTypes.Code, // Use the Authorization Code flow
+
+                // URLs to redirect to after login/logout
+                RedirectUris = { "https://localhost:5002/signin-oidc" },
+                PostLogoutRedirectUris = { "https://localhost:5002/signout-callback-oidc" },
+
+                AllowedScopes = 
+                {
+                    IdentityServer4.IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServer4.IdentityServerConstants.StandardScopes.Profile,
+                    "api1" // Add any API scopes the client needs
+                },
+
+                RequireConsent = false, // Optional: disables the consent screen
+                RequirePkce = true, // Enforces PKCE for security
+
+                // Enable offline access if you need refresh tokens
+                AllowOfflineAccess = true
             }
         };
 }

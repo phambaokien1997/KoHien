@@ -28,13 +28,29 @@ services.AddCors(options =>
             .AllowAnyMethod()
             .AllowAnyHeader());
 });
+services.AddAuthentication(options =>
+{
+    options.DefaultScheme = "Cookies";
+    options.DefaultChallengeScheme = "oidc";
+})
+.AddCookie("Cookies")
+.AddOpenIdConnect("oidc", options =>
+{
+    options.Authority = "https://localhost:5001"; // IdentityServer URL
+    options.ClientId = "mvc_client";
+    //options.ClientSecret = "secret"; // Add your client secret if required
+    options.ResponseType = "code"; // Use Authorization Code flow
+
+    options.SaveTokens = true; // Save tokens for API calls
+    options.Scope.Add("openid"); // Standard OpenID scopes
+    options.Scope.Add("profile");
+    options.Scope.Add("api1"); // Add API scopes as needed
+
+    options.GetClaimsFromUserInfoEndpoint = true; // Fetch additional claims
+});
 
 builder.Services.AddRazorPages();
- // o day ne, cái ni add mấy hồi, demo để ông hiểu cái dependency injection thôi chớ
- // cũng đã xài đéo đâu
- // vcc chừ t ui tạo lại cái bookstore web làm y chang ri à ?
- // mẹ, cái vụ migration làm xong rồi, thì commit lên đã, ưng sửa chi tiếp thì sửa, code vẫn còn đó, chớ xóa rồi hồi than mất code ăn lồn à
- // vcc ông commit chưa hay để tui commit?// mới commit đó ko thấy hà ê mà tui hỏi ni cái ni để làm chi ?
+
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
@@ -61,7 +77,7 @@ app.UseCors("AllowAllOrigins"); // Áp dụng chính sách CORS
 
 app.UseAuthorization();
 
-app.MapRazorPages(); 
+//app.MapRazorPages(); 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

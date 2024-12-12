@@ -19,6 +19,7 @@
         <div class="login-card">
             <h2>Login</h2>
             <form asp-action="Login" method="post">
+                <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
                 <div class="input-group">
                     <label>Email</label>
                     <input asp-for="Email" type="email" placeholder="Enter your email" required />
