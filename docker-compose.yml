@@ -1,0 +1,48 @@
+version: '3.9'
+
+services:
+  bookstore_web:
+    build:
+      context: .
+      dockerfile: Web/Dockerfile
+    container_name: bookstore_web
+    image: bookstore_web
+    ports:
+      - "8080:80" # Map cổng 80 trong container ra cổng 8080 trên host
+      - "8081:443" # Map cổng 80 trong container ra cổng 8080 trên host
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - IdentityUrl=bookstore_identity
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=BookStoreDb;TrustServerCertificate=True;User Id=sa;Password=Strong!Passw0rd;
+    networks:
+      - internal 
+  bookstore_identity:
+    build:
+      context: .
+      dockerfile: IdentityServer/Dockerfile
+    container_name: bookstore_identity
+    image: bookstore_identity
+    ports:
+      - "8082:80" # Map cổng 80 trong container ra cổng 8080 trên host
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=BookStoreDb;TrustServerCertificate=True;User Id=sa;Password=Strong!Passw0rd;
+    networks:
+      - internal
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "Strong!Passw0rd"  # Change this to a strong password
+      ACCEPT_EULA: "Y"
+    volumes:
+      - ~/dockerVolumes/sqlserver_data:/var/opt/mssql/data
+    networks:
+      - internal
+
+networks:
+  internal:
